@@ -4,6 +4,7 @@ import Nav from "../components/nav";
 import { useParams } from "react-router-dom";
 import Config from "../config/config";
 import Slider from "react-slick";
+import Footer from "../components/footer";
 
 const Detail = () => {
   let { id } = useParams();
@@ -31,42 +32,25 @@ const Detail = () => {
   const request3 = axios.get(endPoint3, config);
 
   const fetchDetail = async () => {
-    await axios
-      .all([request1, request2, request3])
-      .then(
-        axios.spread((response1, response2, response3) => {
-          const responseData1 = response1.data;
-          const responseData2 = response2.data.cast;
-          const responseData3 = response3.data;
+    await axios.all([request1, request2, request3]).then(
+      axios.spread((response1, response2, response3) => {
+        const responseData1 = response1.data;
+        const responseData2 = response2.data.cast;
+        const responseData3 = response3.data;
 
-          setdetail(responseData1);
-          setLanguage(responseData1.spoken_languages);
-          setGenres(responseData1.genres);
-          setCredit(responseData2);
-          setSimiliar(responseData3.results);
-          setProduction(responseData1.production_companies);
-        })
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+        setdetail(responseData1);
+        setLanguage(responseData1.spoken_languages);
+        setGenres(responseData1.genres);
+        setCredit(responseData2);
+        setSimiliar(responseData3.results);
+        setProduction(responseData1.production_companies);
+      })
+    );
   };
-
-  // console.log(detail);
-
-  // {
-  //   production.map((items) => {
-  //     console.log(items.logo_path);
-  //   });
-  // }
-
-  // console.log(detail);
 
   const backgroundImage = {
     backgroundImage: `url(${Config.BASE_IMAGE_URL + detail.backdrop_path})`,
   };
-
-  // console.log(detail);
 
   useEffect(() => {
     fetchDetail();
@@ -84,8 +68,8 @@ const Detail = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
+          slidesToShow: 5,
+          slidesToScroll: 5,
           infinite: true,
         },
       },
@@ -99,6 +83,13 @@ const Detail = () => {
       },
       {
         breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 425,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -136,10 +127,10 @@ const Detail = () => {
               <p className="text-white text-xl my-2 font-semibold">
                 Release : {detail.release_date}
               </p>
-              <div class="flex items-center mt-3 mb-5">
+              <div className="flex items-center mt-3 mb-5">
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-yellow-300"
+                  className="w-5 h-5 text-yellow-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +140,7 @@ const Detail = () => {
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-yellow-300"
+                  className="w-5 h-5 text-yellow-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -159,7 +150,7 @@ const Detail = () => {
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-yellow-300"
+                  className="w-5 h-5 text-yellow-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +160,7 @@ const Detail = () => {
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-yellow-300"
+                  className="w-5 h-5 text-yellow-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +170,7 @@ const Detail = () => {
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-yellow-300"
+                  className="w-5 h-5 text-yellow-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -187,13 +178,13 @@ const Detail = () => {
                   <title>Fifth star</title>
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                 </svg>
-                <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                   {detail.vote_average}
                 </span>
               </div>
               <div className="flex text-white font-semibold my-2 space-x-3">
-                {genres.map((items) => (
-                  <p> {items.name}</p>
+                {genres.map((items, index) => (
+                  <p key={index}> {items.name}</p>
                 ))}
               </div>
               <h1 className="font-semibold text-white my-2 text-2xl">
@@ -221,10 +212,10 @@ const Detail = () => {
                 <p className="text-white text-sm my-2 font-semibold">
                   Release : {detail.release_date}
                 </p>
-                <div class="flex items-center mt-3 mb-5">
+                <div className="flex items-center mt-3 mb-5">
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5 text-yellow-300"
+                    className="w-5 h-5 text-yellow-300"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -234,7 +225,7 @@ const Detail = () => {
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5 text-yellow-300"
+                    className="w-5 h-5 text-yellow-300"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -244,7 +235,7 @@ const Detail = () => {
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5 text-yellow-300"
+                    className="w-5 h-5 text-yellow-300"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -254,7 +245,7 @@ const Detail = () => {
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5 text-yellow-300"
+                    className="w-5 h-5 text-yellow-300"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -264,7 +255,7 @@ const Detail = () => {
                   </svg>
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5 text-yellow-300"
+                    className="w-5 h-5 text-yellow-300"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -272,20 +263,20 @@ const Detail = () => {
                     <title>Fifth star</title>
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                   </svg>
-                  <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                  <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                     {detail.vote_average}
                   </span>
                 </div>
                 <div className="flex flex-wrap text-white font-semibold my-2 gap-2">
-                  {genres.map((items) => (
-                    <p> {items.name}</p>
+                  {genres.map((items, index) => (
+                    <p key={index}> {items.name}</p>
                   ))}
                 </div>
                 <h1 className="font-semibold text-white my-2 text-2xl">
                   Sinopsis:
                 </h1>
-                <div className="w-full h-20px overflow-scroll text-white ">
-                  <p className="">{detail.overview} </p>
+                <div className="h-48 overflow-scroll  text-white">
+                  <p className="w-full">{detail.overview}</p>
                 </div>
               </div>
             </div>
@@ -293,16 +284,16 @@ const Detail = () => {
         </div>
 
         <main className="bg-gray-100 lg:mt-0 mt-96">
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap gap-3">
             <div className="lg:w-9/12 h-full w-full sm:px-3 shadow-amber-50  px-10 mt-16">
               <Slider {...settings}>
                 {credit.map((items, index) => (
-                  <div className="px-3">
+                  <div className="px-3 " key={index}>
                     <img
-                      className="w-130 h-[200px] rounded-lg"
-                      key={index}
+                      className="w-130 h-[200px] px-3 rounded-lg"
                       src={Config.BASE_IMAGE_URL + items.profile_path}
                       alt=""
+                      loading="lazy"
                     />
                     <h2 className="pt-2 font-semibold">{items.name}</h2>
                     <p className="w-32">{items.character}</p>
@@ -319,7 +310,9 @@ const Detail = () => {
               <h2 className="font-bold my-2 text-xl">Language :</h2>
               <div className="flex flex-wrap space-x-2">
                 {language.map((items, index) => (
-                  <p className="font-serif block ">{items.english_name}</p>
+                  <p className="font-serif block" key={index}>
+                    {items.english_name}
+                  </p>
                 ))}
               </div>
               <h2 className="font-bold text-xl my-2">Budget : </h2>
@@ -338,22 +331,24 @@ const Detail = () => {
                   className="w-36 h-20 mt-8"
                   src={Config.BASE_IMAGE_URL + items.logo_path}
                   alt=""
+                  loading="lazy"
                 />
               ))}
             </div>
           </div>
 
-          <div className="px-3 lg:px-10">
+          <div className="px-4 lg:px-10">
             <h1 className="mt-12 font-bold text-xl">Similiar Movies : </h1>
             <div className="w-full h-full mt-8">
               <Slider {...settings2}>
                 {similiar.map((items, index) => (
-                  <div className="">
+                  <div className="" key={index}>
                     <a href={`/details/${items.id}`}>
                       <img
-                        className="w-130 h-[200px] rounded-lg"
+                        className="w-130 h-[200px] mb-9 px-3 rounded-lg"
                         src={Config.BASE_IMAGE_URL + items.poster_path}
                         alt=""
+                        loading="lazy"
                       />
                     </a>
                   </div>
@@ -363,6 +358,7 @@ const Detail = () => {
           </div>
         </main>
       </div>
+      <Footer />
     </div>
   );
 };

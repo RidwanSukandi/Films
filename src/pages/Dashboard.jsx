@@ -8,13 +8,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import Footer from "../components/footer";
 
 const Dashboard = () => {
   const [playingNow, setplayingNow] = useState([]);
   const [mostFavorite, setmostFavorite] = useState([]);
   const [popular, setPopular] = useState([]);
   const [upComing, setupComing] = useState([]);
-  const [data, setdata] = useState([]);
 
   const endPoint1 =
     "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
@@ -94,6 +94,7 @@ const Dashboard = () => {
   return (
     <div>
       <Nav />
+
       <div className=" bg-[#111827]  px-8 h-full">
         <h1 className="text-white font-bold text-lg px-2">Now Playing :</h1>
         <Slider {...settings}>
@@ -105,6 +106,7 @@ const Dashboard = () => {
                   key={index}
                   src={Config.BASE_IMAGE_URL + items.poster_path}
                   alt=""
+                  loading="lazy"
                 />
               </NavLink>
             </div>
@@ -120,6 +122,7 @@ const Dashboard = () => {
                   key={index}
                   src={Config.BASE_IMAGE_URL + items.poster_path}
                   alt=""
+                  loading="lazy"
                 />
               </NavLink>
             </div>
@@ -135,6 +138,7 @@ const Dashboard = () => {
                   key={index}
                   src={Config.BASE_IMAGE_URL + items.poster_path}
                   alt=""
+                  loading="lazy"
                 />
               </NavLink>
             </div>
@@ -145,19 +149,21 @@ const Dashboard = () => {
         </h1>
         <Slider {...settings}>
           {popular.map((items, index) => (
-            <div className=" px-4">
+            <div className=" px-4 pb-9">
               <NavLink to={`details/${items.id}`}>
                 <img
                   className="rounded-lg mt-4 px-1  h-[200px]"
                   key={index}
                   src={Config.BASE_IMAGE_URL + items.poster_path}
                   alt="Popular TV Movies"
+                  loading="lazy"
                 />
               </NavLink>
             </div>
           ))}
         </Slider>
       </div>
+      <Footer />
     </div>
   );
 };

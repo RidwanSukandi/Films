@@ -3,6 +3,7 @@ import Nav from "../components/nav";
 import axios from "axios";
 import Config from "../config/config";
 import { useParams, Link } from "react-router-dom";
+import Footer from "../components/footer";
 
 const Genres = () => {
   let { id } = useParams();
@@ -18,36 +19,21 @@ const Genres = () => {
   const [genres, setGenres] = useState([]);
 
   const fetchGenres = async () => {
-    await axios
-      .get(url, config)
-      .then((response) => {
-        setGenres(response.data.results);
-      })
-      .then((err) => {
-        console.log(err);
-      });
+    await axios.get(url, config).then((response) => {
+      setGenres(response.data.results);
+    });
   };
 
   useEffect(() => {
     fetchGenres();
   });
 
-  // console.log(genres);
-
-  // {
-  //   genres
-  //     .filter((items) => items.lenght === 20)
-  //     .map((items, index) => {
-  //       console.log(items.poster_path);
-  //     });
-  // }
-
   return (
     <div>
       <Nav />
-      <div className="bg-[#111827] w-full flex flex-wrap px-8 justify-evenly gap-8">
+      <div className="bg-[#111827] w-full flex flex-wrap px-8 pb-9 justify-evenly gap-8">
         {genres.slice(0, 20).map((items, index) => (
-          <div className="">
+          <div className="" key={index}>
             <Link to={`/details/${items.id}`}>
               <img
                 className="w-[280px] rounded-md"
@@ -58,6 +44,7 @@ const Genres = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };
